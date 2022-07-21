@@ -14,3 +14,16 @@
 * Playwright
 
 **Deploy feito com heroku**
+
+#### Estrutura da API:
+
+```json
+{
+  "name":
+  {
+    "name": "name",
+    "bounty": "bounty",
+    "img": "url"
+   }
+}
+```
