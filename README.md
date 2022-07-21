@@ -1,5 +1,5 @@
 ### API em fase de construção
-* https://onepieceinapi.herokuapp.com/
+* https://onepieceinapi.herokuapp.com/api
 
 ### Principais ferramentas:
 
