@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <style>
+            body{
+                margin: 0;
+            }
+
+            #navbar{
+                background-color: #c46a6a;
+                position: absolute;
+                width: 100vw;
+                height: 100vh;
+                display: flex;
+
+                animation: changeBackgroundColor 15s infinite;
+            }
+            
+            @keyframes changeBackgroundColor {
+              0% {
+                background-color: #001F3F;
+              }
+              50% {
+                background-color: #FF4136;
+              }
+              100% {
+                background-color: #001F3F;
+              }
+            }
+
+            .box{
+                width: 300px;
+                height: 440px;
+                margin: auto;
+                border-radius: 5%;
+            }
+
+           
+            #content{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                border: 2px solid rgb(0, 0, 0);
+                background-color: rgb(255, 255, 255);
+                border-top-left-radius: 5%;
+                border-top-right-radius: 5%;
+            }
+
+            #content_img{
+                height: 65%;
+                width: 100%;
+                border-top-left-radius: 5%;
+                border-top-right-radius: 5%;
+            }
+
+            #img{
+                width: 100%;
+                height: 154%;
+                margin: auto;
+                border-top-left-radius: 4.5%;
+                border-top-right-radius: 4.5%;
+                
+            }
+
+            .content_text{
+                font-family: "Comic Sans MS", cursive, sans-serif;
+                width: 100%;
+                height: 8%;
+                text-align: center;
+                align-items: center;
+                display: flex;
+                margin: auto;
+                border-top: 2px solid rgb(0, 0, 0);
+                border-bottom: 2px solid rgb(0, 0, 0);
+                background-color: rgb(255, 255, 255);
+            }
+
+            #text_content{
+                margin: 10px;
+            }
+
+            #result_content{
+                margin: auto;
+            }
+
+            #form{
+                width: 100%;
+                height: 30%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background-color: rgb(255, 255, 255);
+            }
+
+            #input_search{
+                width: 70%;
+                padding: 4%;
+                outline: none;
+                border: 2px solid black;
+                border-radius: 5px;
+                font-weight: 600;
+                color: #000000;
+                font-size: clamp(8px, 5vw, 1rem);
+                margin: auto;
+                background-color: rgba(255, 255, 255, 0.651);
+            }
+
+            #bounty{
+                font-family: "Comic Sans MS", cursive, sans-serif;
+                width: 100%;
+                height: 8%;
+                text-align: center;
+                align-items: center;
+                display: flex;
+                margin: auto;
+                border-bottom: 2px solid rgb(0, 0, 0);
+                background-color: rgb(255, 255, 255)
+            }
+
+            #text_bounty{
+                margin: 10px;
+            }
+
+            #result_bounty{
+                margin: auto;
+            }
+
+        </style>
+    </head>
+    <body>
+        <nav id="navbar">
+            <div class="box">
+                <div id="content">
+                    <div class="content_img" id="content_img" >
+                        <img id="img" src="/imgs/personagens/M/Monkey D. Luffy.png" alt="">
+                    </div>
+                    <div class="content_text">
+                        <p id="text_content">Name: </p>
+                        <p id="result_content">Monkey D. Luffy</p>
+                    </div>
+                    <div id="bounty">
+                        <p id="text_bounty">Bounty: </p>
+                        <p id="result_bounty"></p>
+                    </div>
+                    <form id="form">
+                        <input id="input_search" type="text" autocomplete="off" placeholder="Pesquisar...">
+                        <script>
+    
+                            const pirateName = document.getElementById("result_content");
+                            const pirateImg = document.getElementById("img");
+                            const pirateBounty = document.getElementById("result_bounty");
+                            const form = document.getElementById('form');
+                            const input = document.getElementById('input_search');
+                            const content = document.getElementById('content');
+    
+                            const fetchPirate = async () =>{
+                                const APIresponse = await fetch('https://onepieceinapi.herokuapp.com/api');
+                                const data =  await APIresponse.json();
+    
+                                return data
+                            
+                            }
+                            
+                            const renderPirate = async (pirate) => {
+
+                                content.animate([
+                                // keyframes
+                                    { opacity: '1' }, // 0%
+                                    { transform: 'rotateY(0)' },
+                                    { transform: 'rotateY(-180deg)' },
+                                    { opacity: '0' },
+                                    { transform: 'rotateY(-360deg)' },
+                                    { opacity: '1' }, // 100%
+                                ], {
+                                // timing options
+                                    duration: 1000,
+                                });
+    
+                                const data = await fetchPirate();
+    
+                                const pirateChoice = pirate.replace(/(^\w{1})|(\s+\w{1})/g, letra => letra.toUpperCase());
+    
+                                console.log(data[`${pirateChoice}`].name);
+                                pirateName.innerHTML = data[`${pirateChoice}`].name;
+                                pirateImg.src = data[`${pirateChoice}`].img;
+                                pirateBounty.innerText = data[`${pirateChoice}`].bounty;
+                            }
+    
+                            if(pirateName && pirateImg && pirateBounty){
+                                renderPirate("Monkey D. Luffy");
+                            }
+    
+                            form.addEventListener('submit', (event) => {
+                                event.preventDefault()
+    
+                                renderPirate(input.value);
+                                input.value = '';
+                            });
+                            
+                        </script>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </body>
+</html>
