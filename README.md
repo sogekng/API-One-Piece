@@ -1,5 +1,5 @@
 ### API em fase de construção
-
+* https://onepieceinapi.herokuapp.com/
 
 ### Principais ferramentas:
 
@@ -13,4 +13,4 @@
 * JSON
 * Playwright
 
-**Deploy feito com Flask**
+**Deploy feito com heroku**
